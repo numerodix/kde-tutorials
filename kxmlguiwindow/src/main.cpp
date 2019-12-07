@@ -1,23 +1,24 @@
+#include <cstdlib>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <KAboutData>
 #include <KLocalizedString>
-#include <KMessageBox>
-
+#include "mainwindow.h"
+ 
 int main (int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    KLocalizedString::setApplicationDomain("tutorial1");
+    KLocalizedString::setApplicationDomain("tutorial2");
     
     KAboutData aboutData(
                          // The program name used internally. (componentName)
-                         QStringLiteral("tutorial1"),
+                         QStringLiteral("tutorial2"),
                          // A displayable program name string. (displayName)
-                         i18n("Tutorial 1"),
+                         i18n("Tutorial 2"),
                          // The program version string. (version)
                          QStringLiteral("1.0"),
                          // Short description of what the app does. (shortDescription)
-                         i18n("Displays a KMessageBox popup"),
+                         i18n("A simple text area"),
                          // The license this code is released under
                          KAboutLicense::GPL,
                          // Copyright Statement (copyrightStatement = QString())
@@ -33,18 +34,14 @@ int main (int argc, char *argv[])
     aboutData.addAuthor(i18n("Name"), i18n("Task"), QStringLiteral("your@email.com"),
                          QStringLiteral("http://your.website.com"), QStringLiteral("OSC Username"));
     KAboutData::setApplicationData(aboutData);
-
+ 
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
     parser.process(app);
     aboutData.processCommandLine(&parser);
     
-    KGuiItem yesButton( i18n( "Hello" ), QString(),
-                        i18n( "This is a tooltip" ),
-                        i18n( "This is a WhatsThis help text." ) );
-
-    return 
-        KMessageBox::questionYesNo 
-        (0, i18n( "Hello World" ), i18n( "Hello" ), yesButton ) 
-        == KMessageBox::Yes? EXIT_SUCCESS: EXIT_FAILURE;
+    MainWindow* window = new MainWindow();
+    window->show();
+    
+    return app.exec();
 }
