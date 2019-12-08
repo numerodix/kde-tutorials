@@ -14,9 +14,6 @@
 
 #include "mainwindow.h"
 
-static void doNothingFuncStatic() {}
-void doNothingFuncNonStatic() {}
-
 MainWindow::MainWindow(QWidget *parent) : KXmlGuiWindow(parent), fileName(QString())
 {
   textArea = new KTextEdit();
@@ -44,7 +41,7 @@ void MainWindow::setupActions()
  
     KStandardAction::openNew(this, SLOT(newFile()), actionCollection());
     
-    setupGUI(Default, "tutorial4ui.rc");
+    setupGUI(Default, "tutorial5ui.rc");
 }
 
 void MainWindow::newFile()
@@ -89,12 +86,15 @@ void MainWindow::saveFile()
 
 void MainWindow::openFile()
 {
-    QUrl fileNameFromDialog = QFileDialog::getOpenFileUrl(this, i18n("Open File"));
-    
-    if (!fileNameFromDialog.isEmpty())
+    openFile(QFileDialog::getOpenFileUrl(this, i18n("Open File")));
+}
+
+void MainWindow::openFile(const QUrl &inputFileName)
+{
+    if (!inputFileName.isEmpty())
     {
-        KIO::Job* job = KIO::storedGet(fileNameFromDialog);
-        fileName = fileNameFromDialog.toLocalFile();
+        KIO::Job* job = KIO::storedGet(inputFileName);
+        fileName = inputFileName.toLocalFile();
 
         connect(job, SIGNAL(result(KJob*)), this, SLOT(downloadFinished(KJob*)));
         

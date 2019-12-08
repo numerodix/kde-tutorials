@@ -12,6 +12,7 @@ class MainWindow : public KXmlGuiWindow
     
   public:
     explicit MainWindow(QWidget *parent = nullptr);
+    void openFile(const QUrl &inputFileName);
  
   private:
     void setupActions();
@@ -24,8 +25,6 @@ class MainWindow : public KXmlGuiWindow
     void saveFileAs(const QString &outputFileName);
     
     void downloadFinished(KJob* job);
-
-    static void doNothingMember() {}
 
   private:
     KTextEdit* textArea;
