@@ -1,2 +1,4 @@
 .vscode
 build
+using-actions/bin
+using-actions/share
